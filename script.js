@@ -40,23 +40,64 @@ let finalTimeDisplay = "0.0s";
 // Scroll
 let valueY = 0;
 
+// Reset Game
+function playAgain() {
+  gamePage.addEventListener("click", startTimer);
+  scorePage.hidden = true;
+  splashPage.hidden = false;
+  equationsArray = [];
+  playerGuessArray = [];
+  valueY = 0;
+  playAgainBtn.hidden = true;
+}
+
+// Show Score Page
+function showScorePage() {
+  // show play again button after 1 sec, in case accidenttly press
+  setTimeout(() => {
+    playAgainBtn.hidden = false;
+  }, 1000);
+  gamePage.hidden = true;
+  scorePage.hidden = false;
+}
+
+// Format & Display Time in DOM
+function scoresToDOM() {
+  finalTimeDisplay = finalTime.toFixed(1);
+  baseTime = timePlayed.toFixed(1);
+  penaltyTime = penaltyTime.toFixed(1);
+  baseTimeEl.textContent = `Base Time: ${baseTime}s`;
+  penaltyTimeEl.textContent = `Penalty: +${penaltyTime}s`;
+  finalTimeEl.textContent = `${finalTimeDisplay}s`;
+  // Scroll to Top, go to Score Page
+  itemContainer.scrollTo({ top: 0, behavior: "instant" });
+  showScorePage();
+}
+
 //Stop Timer, Process Results, go to Score Page
 function checkTime() {
   console.log(timePlayed);
   if (playerGuessArray.length == questionAmount) {
-    console.log("playerGuessArray:", playerGuessArray);
     clearInterval(timer);
-    // Check for wrong guesses, add penalty time
+    // Check for wrong guess, add penaltyTime
     equationsArray.forEach((equation, index) => {
       if (equation.evaluated === playerGuessArray[index]) {
-        //Correct Guess, No Penalty
+        // Correct Guess, No Penalty
       } else {
-        //Incorrect Guess, Add Penalty
+        // Incorrect Guess, Add Penalty
         penaltyTime += 0.5;
       }
     });
     finalTime = timePlayed + penaltyTime;
-    console.log(penaltyTime);
+    console.log(
+      "time:",
+      timePlayed,
+      "penalty:",
+      penaltyTime,
+      "final:",
+      finalTime
+    );
+    scoresToDOM();
   }
 }
 
@@ -72,6 +113,7 @@ function startTimer() {
   timePlayed = 0;
   baseTime = 0;
   finalTime = 0;
+  penaltyTime = 0;
   timer = setInterval(addTime, 100);
   gamePage.removeEventListener("click", startTimer);
 }
