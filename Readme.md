@@ -5,7 +5,9 @@
 
 This project is a Math Sprint Game with JavaScript.
 
-<!-- <img src="https://maggiepractice.s3.amazonaws.com/quotegenerator2.gif" width="600" /> -->
+<img src="https://maggiepractice.s3.amazonaws.com/mathgame.gif" width="600" />
+
+Website Demo✨: https://105306005.github.io/Math_Sprint_Game/
 
 ## Technologies
 
